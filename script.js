@@ -1,32 +1,31 @@
-//your JS code here. If required.
-const sounds = ["sound1", "sound2", "sound3", "sound4", "sound5"]; // List of sound file names
-
+const sounds = ["sound1", "sound2", "sound3", "sound4", "sound5"];
 const buttonsContainer = document.getElementById("buttons");
-let currentAudio = null; // Store currently playing audio
+let currentAudio = null;
 
-// Create buttons dynamically for each sound
+// Create buttons dynamically
 sounds.forEach((sound) => {
   const btn = document.createElement("button");
   btn.classList.add("btn");
   btn.innerText = sound;
 
-  // Play the sound on button click
   btn.addEventListener("click", () => {
-    stopSounds(); // Stop currently playing sound
+    stopSounds(); // Stop any playing audio
     currentAudio = new Audio(`sounds/${sound}.mp3`);
-    currentAudio.play();
+    currentAudio
+      .play()
+      .catch((error) => console.error("Audio play error:", error)); // Catch errors
   });
 
   buttonsContainer.appendChild(btn);
 });
 
-// Stop all sounds
+// Stop audio when stop button is clicked
 document.querySelector(".stop").addEventListener("click", stopSounds);
 
 function stopSounds() {
   if (currentAudio) {
     currentAudio.pause();
-    currentAudio.currentTime = 0; // Reset audio to start
+    currentAudio.currentTime = 0;
     currentAudio = null;
   }
 }
